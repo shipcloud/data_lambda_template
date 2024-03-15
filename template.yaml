@@ -1,0 +1,58 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: <Lambda Function Description> 
+
+Globals:
+  Function:
+    Timeout: 10
+    MemorySize: 128
+
+Parameters:
+  NotificationTopicArn:
+    Type: String
+    Default: "arn:aws:sns:eu-central-1:420422022241:LambdaAlertTopic"
+
+Resources:
+  LambdaExecRoles:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Path: /
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+  
+  <Function name>: # The name of should be in camel case, e.g. HelloWorldFunction
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: app.lambda_handler
+      CodeUri: src/
+      Runtime: python3.9
+      Role:
+        Fn::GetAtt:
+        - LambdaExecRoles
+        - Arn
+    
+  <Function name>Alert: # The name of should be in camel case, e.g. HelloWorldFunctionAlert
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmActions:
+        - !Ref NotificationTopicArn
+      ComparisonOperator: GreaterThanThreshold
+      Dimensions:
+        - Name: FunctionName
+          Value: !Ref <Function name> # E.g., HelloWorldFunction
+      EvaluationPeriods: 1
+      MetricName: Errors
+      Namespace: AWS/Lambda
+      Period: 300
+      Statistic: Sum
+      Threshold: 0
+      TreatMissingData: ignore

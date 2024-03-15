@@ -1,0 +1,23 @@
+version = 0.1
+[default.global.parameters]
+s3_bucket = "aws-lambda-deployment-420422022241"
+s3_prefix = "<Project name>" # E.g., "hello-world"
+
+[default.build.parameters]
+cached = true
+parallel = true
+use_container = true
+skip_pull_image = true
+
+[default.validate.parameters]
+lint = true
+
+[default.package.parameters]
+output_template_file = "packaged.yaml"
+
+[default.deploy.parameters]
+stack_name = "lake-<Project name>" # E.g., lake-hello-world 
+capabilities = "CAPABILITY_IAM"
+region = "eu-central-1"
+template_file = "packaged.yaml"
+confirm_changeset = true
