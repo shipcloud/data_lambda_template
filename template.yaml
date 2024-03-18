@@ -29,7 +29,7 @@ Resources:
       ManagedPolicyArns:
       - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
   
-  <Function name>: # The name of should be in camel case, e.g. HelloWorldFunction
+  <Function name>: # The name should be in camel case. E.g., HelloWorldFunction
     Type: AWS::Serverless::Function
     Properties:
       Handler: app.lambda_handler
@@ -40,7 +40,7 @@ Resources:
         - LambdaExecRoles
         - Arn
     
-  <Function name>Alert: # The name of should be in camel case, e.g. HelloWorldFunctionAlert
+  <Function name>Alert: # The name should be in camel case. E.g., HelloWorldFunctionAlert
     Type: AWS::CloudWatch::Alarm
     Properties:
       AlarmActions:
