@@ -35,6 +35,7 @@ Resources:
       Handler: app.lambda_handler
       CodeUri: src/
       Runtime: python3.9
+      FunctionName: lake-<Function name> # The name is used for invocation and it should be in kebab case. E.g., lake-hello-world
       Role:
         Fn::GetAtt:
         - LambdaExecRoles
