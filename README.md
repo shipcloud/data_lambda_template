@@ -3,13 +3,13 @@
 <Project description>. 
 
 ## Deployment
-Building and packaging the application:
+Building, packaging and deploy the application in production environment.
 ```bash
-sam build && sam package
+sam build && sam package && sam deploy
 ```
-Deploy the application:
+Deploy in the test environment (if you have set up the environment in `samconfig.toml` file)
 ```bash
-sam deploy --config-file samconfig.toml
+sam build --config-env test && sam package --config-env test && sam deploy --config-env test
 ```
 
 ## Invocation
