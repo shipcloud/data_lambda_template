@@ -29,6 +29,17 @@ Resources:
       ManagedPolicyArns:
       - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
   
+  DataTeamLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: data-team-layer
+      ContentUri: data_team_layer/
+      CompatibleRuntimes:
+        - python3.10
+        - python3.11
+    Metadata:
+      BuildMethod: makefile
+  
   <Function name>: # The name should be in camel case. E.g., HelloWorldFunction
     Type: AWS::Serverless::Function
     Properties:
@@ -39,8 +50,10 @@ Resources:
       Role:
         Fn::GetAtt:
         - LambdaExecRoles
-        - Arn
-    
+        - ArN
+      Layers:
+        - !Ref DataTeamLayer
+        
   <Function name>Alert: # The name should be in camel case. E.g., HelloWorldFunctionAlert
     Type: AWS::CloudWatch::Alarm
     Properties:
